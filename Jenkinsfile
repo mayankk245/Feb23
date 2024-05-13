@@ -22,7 +22,8 @@ pipeline {
         
         stage('Copy main.js to Local Path') {
             steps {
-                sh 'cd ./dist/Feb23'
+                sh 'cd ./dist'
+                sh 'ls'
                 sh 'cp main.js /Users/mayankkulkarni/build'
             }
         }
