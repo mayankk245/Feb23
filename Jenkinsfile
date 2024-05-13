@@ -23,7 +23,7 @@ pipeline {
         stage('Copy main.js to Local Path') {
             steps {
                 sh 'ls'
-                sh 'cp dist/main.js /Users/mayankkulkarni/build'
+                sh 'cp dist/Feb23/main.js /Users/mayankkulkarni/build'
             }
         }
     }
