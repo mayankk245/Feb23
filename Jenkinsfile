@@ -1,6 +1,6 @@
 pipeline {
     agent any
-    
+
      environment {
         // Define the Node.js installation tool
         NODEJS_HOME = tool 'node16'
@@ -10,7 +10,6 @@ pipeline {
     stages {
         stage('Install Dependencies') {
             steps {
-                sh 'npm'
                 sh 'npm install'
             }
         }
