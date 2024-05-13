@@ -27,10 +27,4 @@ pipeline {
             }
         }
     }
-    
-    post {
-        always {
-            // Clean up steps if needed
-        }
-    }
 }
