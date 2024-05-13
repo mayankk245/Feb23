@@ -1,0 +1,17 @@
+<div class="flex w-100 justify-center items-center">
+    <button class="h-auto w-auto bg-blue-100 cursor-pointer shadow-lg p-2" [ngClass]="{'bg-blue-400 shadow-lg text-white' : currentTab == 'e'}" (click)="changeTab('e')">Explanation</button>
+
+    <button class="h-auto w-auto bg-blue-100 cursor-pointer shadow-lg p-2 ml-5" [ngClass]="{'bg-blue-400 shadow-lg text-white' : currentTab == 'c'}" (click)="changeTab('c')">Code</button>
+</div> 
+
+<div *ngIf="currentTab == 'e'; else code">
+Explanation
+</div>
+
+
+
+<!-- Code Example of Attribute directive-->
+<ng-template #code>
+Code
+
+</ng-template>

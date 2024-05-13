@@ -1,0 +1,83 @@
+<div class="flex w-100 justify-center items-center">
+    <button class="h-auto w-auto bg-blue-100 cursor-pointer shadow-lg p-2" [ngClass]="{'bg-blue-400 shadow-lg text-white' : currentTab == 'e'}" (click)="changeTab('e')">Explanation</button>
+
+    <button class="h-auto w-auto bg-blue-100 cursor-pointer shadow-lg p-2 ml-5" [ngClass]="{'bg-blue-400 shadow-lg text-white' : currentTab == 'c'}" (click)="changeTab('c')">Code</button>
+</div>
+
+<div *ngIf="currentTab == 'e'; else code">
+<p appHighlight="red"  backgroundColor="blue" class="color-white">Hover on me to see Attribute directive in action</p>
+<pre>
+selector of a directive can be defined by 3 type 1)Element name, 2) using it as arrtibute define the name inside [].
+3) using the directive as a class. So in that we have to define the directive with prefix "." .directiveName;
+<pre>
+    <code>
+        {{" @Directive({
+                selector: 'h1[appHighlight].appHighLight'
+            })"}}
+    </code>
+</pre>
+<pre><b>Note: If you want to use directive as one of the input then you should declare a Input with the same name as directive's selector.
+And you should pass the same name in Input like <i>@Input('nameOfDirective')</i> nameOfDirective:any ='';
+</b></pre>
+eg as element 1) selector: 'h1'
+eg as attribute 2) selector: '[customDirective]'
+eg as class 3) selector: '.customClassName'
+
+
+use as element 1) <code> &lt;h1&gt; Directive will automatically <b>applied to Every h1 element</b>. Because in custom directive selector we have included h1 tag. &lt;/h1&gt;</code>
+eg as attribute 2) <code> &lt;p customDirective&gt; Appling attribute directive to this element <b>using it as an attribute.</b> &lt;/p&gt;</code>
+eg as class 3) <code> &lt;p class="customClassName"&gt; Appling attribute directive to this element <b>using it as a class.</b> &lt;/p&gt;</code>
+
+We can also use the combination of three in the selector as seen below we are using element name and then attribute name
+which defines the directive will be applied to the h1 element but it should have the directive name in the sttribute
+elementName[AttributeName].className (This type of combination means that an element should have all the three properties 
+then only the directive will be applied to it)
+elementName,[AttributeName],.className : (it they are comma seperated that implies that if element will have any one of the 
+property to it then the directive will be applied to it no need to have all the three properties)
+
+@hostbinding & @hostListener these are the two things which are provided by angular and we can use them on any element.
+@HostBinding is used to bind any property on the element on which the directive is applied we can bind any type of css property directly
+by using using hostbinding. We dont have to use ElementRef to get the element any apply the style. in case we are using hostbinding
+@Hostlistener by using this we can bind any type of event on the element which is using our custom directive.
+</pre>
+
+</div>
+
+
+<!-- Code Example of Attribute directive-->
+<ng-template #code>
+    <h3>Code Example of Attribute directive</h3>
+    <pre>
+    <code>
+    {{"
+import { Directive, ElementRef, HostListener, Input } from '@angular/core';
+
+@Directive({
+  selector: '[appHighlight]'
+})
+export class HighlightDirective {
+@Input('appHighlight') appHighlight:string ='';
+
+@Input() backgroundColor?: string ='';
+
+constructor(private elRef : ElementRef) { this.elRef.nativeElement.style.backgroundColor = this.appHighlight; }
+
+  @HostListener('mouseover') onMouseEnter(){
+    this.elRef.nativeElement.style.backgroundColor =  this.appHighlight;
+  }
+  @HostListener('mouseleave') onMouseLeave(){
+    this.elRef.nativeElement.style.backgroundColor =  this.backgroundColor;
+  }
+
+ngOnInit(){
+  this.elRef.nativeElement.style.backgroundColor = this.appHighlight;
+}
+}
+
+    "}}
+    </code>
+    </pre>
+    </ng-template>
+    
+
+

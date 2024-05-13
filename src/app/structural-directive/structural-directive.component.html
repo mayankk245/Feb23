@@ -1,0 +1,79 @@
+<div class="flex w-100 justify-center items-center">
+    <button class="h-auto w-auto bg-blue-100 cursor-pointer shadow-lg p-2" [ngClass]="{'bg-blue-400 shadow-lg text-white' : currentTab == 'e'}" (click)="changeTab('e')">Explanation</button>
+
+    <button class="h-auto w-auto bg-blue-100 cursor-pointer shadow-lg p-2 ml-5" [ngClass]="{'bg-blue-400 shadow-lg text-white' : currentTab == 'c'}" (click)="changeTab('c')">Code</button>
+</div>
+
+<div *ngIf="currentTab == 'e'; else code">
+
+<button (click)="toggle = !toggle" class="h-auto w-auto bg-yellow-100 cursor-pointer shadow-lg p-2">toggle Me => {{toggle}}</button>
+<div *appAntiIf="toggle; elseBlock: elseb">
+<p><b>appAntiIf directive:</b> It is a custom structural directive which works <b>opposite</b> to <b>*ngIf</b>. It is taking two inputs 1st one is mandatory and 2nd is optional:</p>
+<b><pre class="max-w-100">Naming convention of structural direct inputs: 1st input which is by default by the name of directive will be taken as 1st input.
+But all the other inputs which are going to be part of a structural directive the prefix of those inputs should contain the name 
+of directive followed by the actual name of input.</pre></b>
+<br>
+<p>Note: See the code for how to take input</p>
+<br>
+
+<ol class="ml-5" style="list-style: bullet;">
+  <li><b>appAntiIf</b>: It is name of the structural directive and should be use with * as prefix on the element Takes a boolean value as input.</li>
+  <li><b>appAntiIfElseBlock</b>: Optional input used on element to provide the else part of the condition. On element we should only use "elseBlock" to provide the input.</li>
+</ol>
+</div>
+<ng-template #elseb>
+<p >Whenever the input value will be true you will see this content. It is passed as a templet refrence to the elseBlock Input of custom directive. And it will render if 1st input value is true and a refrence of this element is passed to 2nd input which is elseBlock in this case.</p>
+<b><p >Press toggle button to see the Explanation.</p></b>
+</ng-template>
+</div>
+<!-- <p *ngIf="true; else: elseb">structural-directive works!</p>
+<ng-template #elseb>
+<p >else works!</p>
+</ng-template> -->
+
+<!-- Code Example of structural directive-->
+<ng-template #code>
+<h3 class="text-blod">Code Example of structural directive</h3>
+<pre>
+<code>
+{{"
+import { Directive, Input } from '@angular/core';
+import { ViewContainerRef, TemplateRef } from '@angular/core';
+
+@Directive({
+  selector: '[appAntiIf]'
+})
+export class AntiIfDirective {
+  private notShow:boolean = false
+  constructor(private vc:ViewContainerRef, private tempRef: TemplateRef) { }
+  
+
+  @Input() set appAntiIf(val:boolean){
+    this.notShow =  val;
+    this.vc.clear();
+    if(!this.notShow){
+      this.vc.createEmbeddedView(this.tempRef);
+    }
+    else if(this.appAntiIfElseBlock){
+      this.vc.createEmbeddedView(this.appAntiIfElseBlock);
+    }
+  }
+
+  @Input() appAntiIfElseBlock?: TemplateRef;
+
+
+  ngOnInit(){
+    this.vc.clear();
+    if(!this.notShow){
+      this.vc.createEmbeddedView(this.tempRef);
+    }
+    else if(this.appAntiIfElseBlock){
+      this.vc.createEmbeddedView(this.appAntiIfElseBlock);
+    }
+  
+  }
+
+}"}}
+</code>
+</pre>
+</ng-template>

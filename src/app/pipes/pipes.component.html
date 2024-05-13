@@ -1,0 +1,65 @@
+<div class="flex w-100 justify-center items-center">
+    <button class="h-auto w-auto bg-blue-100 cursor-pointer shadow-lg p-2" [ngClass]="{'bg-blue-400 text-white' : currentTab == 'e'}" (click)="changeTab('e')">Explanation</button>
+
+    <button class="h-auto w-auto bg-blue-100 cursor-pointer shadow-lg p-2 ml-5" [ngClass]="{'bg-blue-400 text-white' : currentTab == 'c'}" (click)="changeTab('c')">Code</button>
+</div>
+
+
+<div class="mt-5 ml-5" *ngIf="currentTab == 'e' else code" >
+    <p>Below we are using a custom pipe named as <b>agePipe</b> which is taking our date of birth date and return us the
+        age.</p>
+    <p><b>Syntax: dob | agePipe : true : true</b>, dob is the variable in our Ts file and after | symbol we are using our pipe name which
+        is having 2 optional inputs:</p>
+
+        <br>
+        <p>After pipe name the <b>inputs</b> are seperated by '<b>:</b>' colon</p>
+        <br>
+    <ol class="ml-5" style="list-style: bullet;">
+        <li><b>upperCase</b>: Should convert result to upper case a boolean parameter.</li>
+        <li><b>emoji</b>: Should use emoji in the result.</li>
+    </ol>
+    <br>
+    <p><b>Use Case:</b></p>
+    <ol class="ml-5" style="list-style: upper-alpha;">
+    <br>
+    <li>Not Passing any optional parameter: <b>dob | agePipe</b></li>
+    <p>I am "{{dob | agePipe }}"</p>
+    <br>
+    <li>Passing upeerCase value as true: <b>dob | agePipe : true</b></li>
+    <p>I am "{{dob | agePipe : true}}"</p>
+    <br>
+    <li>Passing both value Upper case and use emoji as true: <b>dob | agePipe : true : true</b></li>
+    <p>I am "{{dob | agePipe : true : true}}"</p>
+    </ol>
+</div>
+
+<ng-template #code>
+<pre>
+<code>{{
+"import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({
+  name: 'agePipe'
+})
+export class AgePipePipe implements PipeTransform {
+
+  transform(value: Date|null|undefined , upperCase: boolean = false, emoji:boolean = false): string|null|undefined {
+    if (value == null || value == undefined) return value
+
+    let text = ' years old '
+    let currentDate = new Date().getFullYear();
+    let age = currentDate - value.getFullYear();
+
+    if(upperCase){
+      text = text.toUpperCase();
+    }
+    if(emoji){
+      text = text + "🥳"
+    }
+    return age + text;
+  }
+   
+} " 
+</code>
+</pre>
+</ng-template>
